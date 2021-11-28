@@ -7,6 +7,7 @@ import axios from "axios";
 // import { BSC_RPC, WBNB, factory, router, recipient } from "../constants";
 import "../index.css";
 import bonk from "../bonk.mp3";
+import { useEffect } from "react/cjs/react.development";
 
 axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
 
@@ -14,6 +15,7 @@ axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
 //! TODO sort by creation date
 const BizScraper = () => {
   const [addresses, setAddresses] = useState([]);
+  const [allowSound, setAllowSound] = useState(false);
 
   const [isRunning, setIsRunning] = useState(false);
   const audio = new Audio(bonk);
@@ -50,6 +52,11 @@ const BizScraper = () => {
   //     }
   //   }, []);
 
+  useEffect(() => {
+    if (allowSound === false) alert("Click to allow sound");
+    setAllowSound(true);
+  }, []);
+
   if (!isRunning) {
     try {
       setIsRunning(true);
@@ -73,7 +80,7 @@ const BizScraper = () => {
   };
 
   const generateDisplay = () => {
-    return addresses.reverse()?.map((address) => {
+    return addresses?.map((address) => {
       return (
         <p
           key={address}
